@@ -6,16 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>1218</width>
+    <height>692</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
-  <widget class="QWidget" name="centralwidget">
-   <property name="styleSheet">
-    <string notr="true">/* General QWidget Style */
+  <property name="styleSheet">
+   <string notr="true">/* General QWidget Style */
 QWidget {
     background-color: #2E3440;
     color: #D8DEE9;
@@ -149,6 +148,10 @@ QScrollBar::add-line, QScrollBar::sub-line {
     border: none;
 }
 </string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <property name="styleSheet">
+    <string notr="true"/>
    </property>
    <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="0">
@@ -181,7 +184,7 @@ QScrollBar::add-line, QScrollBar::sub-line {
            </widget>
           </item>
           <item>
-           <widget class="QSpinBox" name="spinBox_7"/>
+           <widget class="QSpinBox" name="steeringAngleSpin"/>
           </item>
          </layout>
         </item>
@@ -201,7 +204,7 @@ QScrollBar::add-line, QScrollBar::sub-line {
            </widget>
           </item>
           <item>
-           <widget class="QSpinBox" name="spinBox_8"/>
+           <widget class="QSpinBox" name="spacingSpin"/>
           </item>
          </layout>
         </item>
@@ -217,7 +220,7 @@ QScrollBar::add-line, QScrollBar::sub-line {
       <item>
        <layout class="QVBoxLayout" name="verticalLayout_6">
         <item>
-         <widget class="QCheckBox" name="checkBox">
+         <widget class="QCheckBox" name="curvedCheckBox">
           <property name="text">
            <string>Curved</string>
           </property>
@@ -245,7 +248,7 @@ QScrollBar::add-line, QScrollBar::sub-line {
            </widget>
           </item>
           <item>
-           <widget class="QSlider" name="horizontalSlider">
+           <widget class="QSlider" name="radiusSlider">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
               <horstretch>0</horstretch>
@@ -292,7 +295,7 @@ QScrollBar::add-line, QScrollBar::sub-line {
            </widget>
           </item>
           <item>
-           <widget class="QComboBox" name="comboBox"/>
+           <widget class="QComboBox" name="selectTransmitterComboBox"/>
           </item>
          </layout>
         </item>
@@ -314,7 +317,7 @@ QScrollBar::add-line, QScrollBar::sub-line {
              </widget>
             </item>
             <item>
-             <widget class="QSpinBox" name="spinBox_6"/>
+             <widget class="QSpinBox" name="magnitudeSpin"/>
             </item>
             <item>
              <layout class="QHBoxLayout" name="horizontalLayout_8">
@@ -332,7 +335,7 @@ QScrollBar::add-line, QScrollBar::sub-line {
                </widget>
               </item>
               <item>
-               <widget class="QSpinBox" name="spinBox_5"/>
+               <widget class="QSpinBox" name="frequencySpin"/>
               </item>
               <item>
                <layout class="QHBoxLayout" name="horizontalLayout_6">
@@ -350,7 +353,7 @@ QScrollBar::add-line, QScrollBar::sub-line {
                  </widget>
                 </item>
                 <item>
-                 <widget class="QSpinBox" name="spinBox_4"/>
+                 <widget class="QSpinBox" name="phaseShiftSpin"/>
                 </item>
                </layout>
               </item>
@@ -387,7 +390,7 @@ QScrollBar::add-line, QScrollBar::sub-line {
            </widget>
           </item>
           <item>
-           <widget class="QLCDNumber" name="lcdNumber">
+           <widget class="QLCDNumber" name="transmitterNumLCD">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
               <horstretch>0</horstretch>
@@ -413,14 +416,14 @@ QScrollBar::add-line, QScrollBar::sub-line {
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_5">
           <item>
-           <widget class="QPushButton" name="pushButton_2">
+           <widget class="QPushButton" name="decreaseNumButton">
             <property name="text">
              <string>Decrease</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="pushButton">
+           <widget class="QPushButton" name="increaseNumButton">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
               <horstretch>0</horstretch>
@@ -451,8 +454,8 @@ QScrollBar::add-line, QScrollBar::sub-line {
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
-     <height>26</height>
+     <width>1218</width>
+     <height>34</height>
     </rect>
    </property>
   </widget>
