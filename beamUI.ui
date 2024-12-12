@@ -1,0 +1,471 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <property name="styleSheet">
+    <string notr="true">/* General QWidget Style */
+QWidget {
+    background-color: #2E3440;
+    color: #D8DEE9;
+    font-family: &quot;Segoe UI&quot;, Arial, sans-serif;
+    font-size: 12pt;
+}
+
+/* PushButtons */
+QPushButton {
+    background-color: #4C566A;
+    color: #ECEFF4;
+    border: 1px solid #81A1C1;
+    border-radius: 5px;
+    padding: 5px 15px;
+}
+QPushButton:hover {
+    background-color: #81A1C1;
+}
+QPushButton:pressed {
+    background-color: #5E81AC;
+}
+
+/* SpinBoxes */
+QSpinBox {
+    background-color: #3B4252;
+    color: #ECEFF4;
+    border: 1px solid #81A1C1;
+    border-radius: 3px;
+    padding: 2px;
+}
+QSpinBox::up-button {
+    subcontrol-origin: border;
+    subcontrol-position: top right;
+    width: 12px;
+    border-left: 1px solid #81A1C1;
+}
+QSpinBox::down-button {
+    subcontrol-origin: border;
+    subcontrol-position: bottom right;
+    width: 12px;
+    border-left: 1px solid #81A1C1;
+}
+
+/* Horizontal Sliders */
+QSlider::groove:horizontal {
+    border: 1px solid #81A1C1;
+    height: 5px;
+    background: #3B4252;
+}
+QSlider::handle:horizontal {
+    background: #81A1C1;
+    border: 1px solid #5E81AC;
+    width: 15px;
+    margin: -5px 0;
+    border-radius: 5px;
+}
+
+/* Labels */
+QLabel {
+    color: #ECEFF4;
+    font-size: 12pt;
+    font-weight: bold;
+}
+
+/* CheckBoxes */
+QCheckBox {
+    color: #ECEFF4;
+}
+QCheckBox::indicator {
+    width: 15px;
+    height: 15px;
+}
+QCheckBox::indicator:unchecked {
+    border: 1px solid #81A1C1;
+    background-color: #2E3440;
+}
+QCheckBox::indicator:checked {
+    background-color: #81A1C1;
+    border: 1px solid #5E81AC;
+}
+
+/* ComboBoxes */
+QComboBox {
+    background-color: #3B4252;
+    color: #ECEFF4;
+    border: 1px solid #81A1C1;
+    border-radius: 3px;
+    padding: 3px;
+}
+QComboBox QAbstractItemView {
+    background-color: #3B4252;
+    color: #ECEFF4;
+    border: 1px solid #81A1C1;
+}
+
+/* LCD Number */
+QLCDNumber {
+    background-color: #3B4252;
+    color: #81A1C1;
+    border: 2px solid #81A1C1;
+    border-radius: 5px;
+}
+
+/* QPolarChart */
+QPolarChart {
+    background: transparent;
+}
+QPolarChart &gt; .chart-title {
+    color: #ECEFF4;
+    font-size: 14pt;
+    font-weight: bold;
+}
+QPolarChart &gt; .axis-title {
+    color: #D8DEE9;
+}
+
+/* Scrollbars */
+QScrollBar:horizontal, QScrollBar:vertical {
+    border: none;
+    background: #2E3440;
+    width: 8px;
+    margin: 0px;
+}
+QScrollBar::handle:horizontal, QScrollBar::handle:vertical {
+    background: #4C566A;
+    min-width: 20px;
+    min-height: 20px;
+}
+QScrollBar::add-line, QScrollBar::sub-line {
+    background: none;
+    border: none;
+}
+</string>
+   </property>
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0">
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <widget class="PolarChartWidget" name="BeamPatternGraph" native="true"/>
+      </item>
+      <item>
+       <widget class="QWidget" name="WavesGraph" native="true"/>
+      </item>
+     </layout>
+    </item>
+    <item row="1" column="0">
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayout_4">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_11">
+          <item>
+           <widget class="QLabel" name="label_4">
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>100</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Steering Angle</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="spinBox_7"/>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_12">
+          <item>
+           <widget class="QLabel" name="label_7">
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>100</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Spacing</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="spinBox_8"/>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="Line" name="line">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayout_6">
+        <item>
+         <widget class="QCheckBox" name="checkBox">
+          <property name="text">
+           <string>Curved</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_10">
+          <item>
+           <widget class="QLabel" name="label_8">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>100</width>
+              <height>100</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Radius</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSlider" name="horizontalSlider">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>100</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="Line" name="line_2">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayout_7">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_3">
+          <item>
+           <widget class="QLabel" name="label_5">
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>100</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>         Transmitter</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QComboBox" name="comboBox"/>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_4">
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_9">
+            <item>
+             <widget class="QLabel" name="label_10">
+              <property name="maximumSize">
+               <size>
+                <width>16777215</width>
+                <height>100</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>Magnitude</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QSpinBox" name="spinBox_6"/>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_8">
+              <item>
+               <widget class="QLabel" name="label_9">
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>100</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Frequency</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QSpinBox" name="spinBox_5"/>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_6">
+                <item>
+                 <widget class="QLabel" name="label_3">
+                  <property name="maximumSize">
+                   <size>
+                    <width>16777215</width>
+                    <height>100</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string>Phase Shift</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QSpinBox" name="spinBox_4"/>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="Line" name="line_3">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_7">
+          <item>
+           <widget class="QLabel" name="label">
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>100</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Num of transmitters</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLCDNumber" name="lcdNumber">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>70</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>5000</width>
+              <height>50</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_5">
+          <item>
+           <widget class="QPushButton" name="pushButton_2">
+            <property name="text">
+             <string>Decrease</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pushButton">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Increase</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>800</width>
+     <height>26</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>PolarChartWidget</class>
+   <extends>QWidget</extends>
+   <header location="global">polarchartwidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>
