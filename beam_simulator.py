@@ -4,7 +4,6 @@ import numpy as np
 from PyQt5.QtWidgets import QWidget, QVBoxLayout
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
-import pyqtgraph as pg
 """TODO : 
     1. Add Spacing functionality
     2. Add Frequency functionality
@@ -44,8 +43,8 @@ class MainWindow(Ui_MainWindow):
         y = np.linspace(-5, 5, 1000) 
         X, Y = np.meshgrid(x, y) 
         Z = np.zeros_like(X)
-        wavelength = 1
-        frequency = 100
+        wavelength = 0.01
+        frequency = 1
         sources_positions = np.array([])
         if self.num_transmitters < 1:
             print("Warning, must have at least one transmitter")
@@ -62,7 +61,7 @@ class MainWindow(Ui_MainWindow):
                 # Calculate the wave due to the current source
                 Zi = np.sin(2 * np.pi * frequency * R / wavelength)
                 # reduce the amplitude inversely proportional to the distance
-                Zi = Zi / (R+1)
+                Zi = Zi / (R+1)**2
                 # Add the individual wave to the total
                 Z += Zi
         self.WavesGraph.plot_wave(sources_positions,Z)
