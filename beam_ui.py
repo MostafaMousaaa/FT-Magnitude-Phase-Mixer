@@ -22,11 +22,16 @@ class MplWidget(QWidget):
         self.layout = QVBoxLayout(self)
         self.layout.addWidget(self.canvas)
         self.ax = self.canvas.figure.add_subplot(111)
+        self.ax.set_position([0, 0, 1, 1])  # Set the position to cover the entire figure
 
-    def plot_wave(self, z):
+    def plot_wave(self,pos,z):
         self.ax.clear()
         self.ax.imshow(z, cmap='viridis', interpolation='bilinear')
+        self.ax.scatter(pos+500, [500]*len(pos), color='red')
+        self.ax.axis('off')
+        self.canvas.figure.patch.set_facecolor('#2E3440')
         self.canvas.draw()
+
 class Ui_MainWindow(QMainWindow):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -344,11 +349,11 @@ class Ui_MainWindow(QMainWindow):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.label_4.setText(_translate("MainWindow", "Steering Angle"))
+        self.label_4.setText(_translate("MainWindow", "Angle"))
         self.label_7.setText(_translate("MainWindow", "Spacing"))
         self.curvedCheckBox.setText(_translate("MainWindow", "Curved"))
         self.label_8.setText(_translate("MainWindow", "Radius"))
-        self.label_5.setText(_translate("MainWindow", "         Transmitter"))
+        self.label_5.setText(_translate("MainWindow", "                   Transmitter"))
         self.label_10.setText(_translate("MainWindow", "Magnitude"))
         self.label_9.setText(_translate("MainWindow", "Frequency"))
         self.label_3.setText(_translate("MainWindow", "Phase Shift"))
