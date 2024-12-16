@@ -17,17 +17,22 @@ from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 
 class MplWidget(QWidget):
     def __init__(self, parent=None):
-        super().__init__(parent)  
-        self.canvas = FigureCanvas(Figure())
+        super().__init__(parent) 
+        self.figure = Figure() 
+        self.canvas = FigureCanvas(self.figure)
         self.layout = QVBoxLayout(self)
         self.layout.addWidget(self.canvas)
-        self.ax = self.canvas.figure.add_subplot(111)
+        self.ax = self.figure.add_subplot(111)
+        self.figure.tight_layout()
         self.ax.set_position([0, 0, 1, 1])  # Set the position to cover the entire figure
 
-    def plot_wave(self,pos,z):
+    def plot_wave(self,z):
         self.ax.clear()
-        self.ax.imshow(z, cmap='viridis', interpolation='bilinear')
-        self.ax.scatter(pos+500, [500]*len(pos), color='red')
+        extent = [-6, 6, 0, 10]
+        self.ax.imshow(z, extent=extent, aspect='equal', 
+                    cmap='jet', origin='lower')
+        self.ax.set_xlabel('x (m)')
+        self.ax.set_ylabel('y (m)')
         self.ax.axis('off')
         self.canvas.figure.patch.set_facecolor('#2E3440')
         self.canvas.draw()
