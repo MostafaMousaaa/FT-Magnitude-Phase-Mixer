@@ -90,32 +90,54 @@ class PolarChartWidget(QWidget):
         # Close the pattern loop
         series.append(angles[0], magnitudes[0])
 
-class WavesGraph(QWidget):
-    def __init__(self, parent: QWidget = None):
-        super().__init__(parent)
+# class WavesGraph(QWidget):
+#     def __init__(self, parent: QWidget = None):
+#         super().__init__(parent)
         
-        # Create matplotlib figure
-        self.figure = Figure(figsize=(6, 4))
+#         # Create matplotlib figure
+#         self.figure = Figure(figsize=(6, 4))
+#         self.canvas = FigureCanvas(self.figure)
+#         self.ax = self.figure.add_subplot(111)
+        
+#         # Setup layout
+#         layout = QVBoxLayout(self)
+#         layout.addWidget(self.canvas)
+        
+#     def update_waves(self, time, amplitudes, phases, frequencies):
+#         self.ax.clear()
+#         colors = ['#81A1C1', '#A3BE8C', '#EBCB8B', '#BF616A', '#B48EAD']
+        
+#         for i, (amp, phase, freq) in enumerate(zip(amplitudes, phases, frequencies)):
+#             y = amp * np.sin(2*np.pi*freq*time + np.deg2rad(phase))
+#             self.ax.plot(time, y, color=colors[i % len(colors)], 
+#                         label=f'Element {i+1}')
+        
+#         self.ax.set_xlabel('Time')
+#         self.ax.set_ylabel('Amplitude')
+#         self.ax.grid(True)
+#         self.ax.legend()
+#         self.canvas.draw()
+
+class MplWidget(QWidget):
+    def __init__(self, parent=None):
+        super().__init__(parent) 
+        self.figure = Figure() 
         self.canvas = FigureCanvas(self.figure)
+        self.layout = QVBoxLayout(self)
+        self.layout.addWidget(self.canvas)
         self.ax = self.figure.add_subplot(111)
-        
-        # Setup layout
-        layout = QVBoxLayout(self)
-        layout.addWidget(self.canvas)
-        
-    def update_waves(self, time, amplitudes, phases, frequencies):
+        self.figure.tight_layout()
+        self.ax.set_position([0, 0, 1, 1])  # Set the position to cover the entire figure
+
+    def plot_wave(self,z):
         self.ax.clear()
-        colors = ['#81A1C1', '#A3BE8C', '#EBCB8B', '#BF616A', '#B48EAD']
-        
-        for i, (amp, phase, freq) in enumerate(zip(amplitudes, phases, frequencies)):
-            y = amp * np.sin(2*np.pi*freq*time + np.deg2rad(phase))
-            self.ax.plot(time, y, color=colors[i % len(colors)], 
-                        label=f'Element {i+1}')
-        
-        self.ax.set_xlabel('Time')
-        self.ax.set_ylabel('Amplitude')
-        self.ax.grid(True)
-        self.ax.legend()
+        extent = [-6, 6, 0, 10]
+        self.ax.imshow(z, extent=extent, aspect='equal', 
+                    cmap='jet', origin='lower')
+        self.ax.set_xlabel('x (m)')
+        self.ax.set_ylabel('y (m)')
+        self.ax.axis('off')
+        self.canvas.figure.patch.set_facecolor('#2E3440')
         self.canvas.draw()
 
 class BeamformingCalculator:
@@ -165,7 +187,7 @@ class BeamformingCalculator:
         self.phases[index] = phase
         self.amplitudes[index] = magnitude
 
-class Ui_MainWindow(object):
+class Ui_MainWindow(QMainWindow):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
@@ -318,7 +340,7 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout.addWidget(self.BeamPatternGraph)
 
-        self.WavesGraph = WavesGraph(self.centralwidget)
+        self.WavesGraph = MplWidget(self.centralwidget)
         self.WavesGraph.setObjectName(u"WavesGraph")
 
         self.horizontalLayout.addWidget(self.WavesGraph)
@@ -559,16 +581,19 @@ class Ui_MainWindow(object):
         self.statusbar.setObjectName(u"statusbar")
         MainWindow.setStatusBar(self.statusbar)
 
-        self.magnitudeSpin.setRange(0, 100)
         self.magnitudeSpin.setValue(50)
         self.frequencySpin.setRange(1, 100)
         self.frequencySpin.setValue(10)
         self.phaseShiftSpin.setRange(0, 360)
-        self.steeringAngleSpin.setRange(-90, 90)
         self.spacingSpin.setRange(10, 200)
         self.spacingSpin.setValue(50)
         self.radiusSlider.setRange(10, 200)
         self.radiusSlider.setValue(100)
+
+        self  .spacingSpin.setSingleStep(1)    
+
+        self  .steeringAngleSpin.setRange(-90, 90) 
+        self  .magnitudeSpin.setRange(0, 100)  
 
         self.retranslateUi(MainWindow)
 

@@ -1,19 +1,8 @@
-from PySide6 import QtWidgets, QtCore
+from PySide6 import QtWidgets
 import sys
 from beamUI import Ui_MainWindow
 from beamUI import BeamformingCalculator
-from beamUI import WavesGraph , PolarChartWidget
 import numpy as np
-from PySide6.QtCharts import QLineSeries, QValueAxis, QPolarChart
-from PySide6.QtCore import Qt
-from PySide6.QtGui import QPainter
-from PySide6.QtCharts import QChart, QPolarChart, QChartView, QValueAxis, QLineSeries, QPolarChart
-from PySide6.QtGui import QPainter
-import numpy as np
-from matplotlib.figure import Figure
-from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
-from PySide6.QtWidgets import QWidget, QVBoxLayout
-from PySide6.QtCore import Qt 
 
 
 # class PolarChartWidget(QWidget):
@@ -133,90 +122,77 @@ from PySide6.QtCore import Qt
 #         self.frequencies[index] = freq
 #         self.phases[index] = phase
 #         self.amplitudes[index] = magnitude
+class Transmitter:
+    def __init__(self, x = 0, y = 0, amplitude = 1, frequency = 1000, phase = 0):
+        self.x = x
+        self.y = y
+        self.amplitude = amplitude
+        self.frequency = frequency
+        self.phase = phase
 
-
-class MainWindow(QtWidgets.QMainWindow):
+class Window(Ui_MainWindow):
     def __init__(self):
         super().__init__()
-        self.ui = Ui_MainWindow()
-        self.ui.setupUi(self)
-        
-        # Remove existing graph widgets first
-        for i in reversed(range(self.ui.horizontalLayout.count())): 
-            self.ui.horizontalLayout.itemAt(i).widget().setParent(None)
-        
-        # Add graphs in correct order
-        self.beam_pattern = PolarChartWidget(self)
-        self.waves_graph = WavesGraph(self)
-        
-        self.ui.horizontalLayout.addWidget(self.beam_pattern)
-        self.ui.horizontalLayout.addWidget(self.waves_graph)
-        
-        # Initialize calculator
+        self.setupUi(self)
+        self.x = np.linspace(-6, 6, 200)
+        self.y = np.linspace(0, 10, 200)
+        self.transmitters = [Transmitter()]
+        self.speed = 343
+        self.rotation = 0
+        self.field = None
         self.calculator = BeamformingCalculator()
-        
-        # Connect signals
-        self.ui.steeringAngleSpin.valueChanged.connect(self.update_pattern)
-        self.ui.spacingSpin.valueChanged.connect(self.update_pattern)
-        self.ui.curvedCheckBox.stateChanged.connect(self.update_pattern)
-        self.ui.radiusSlider.valueChanged.connect(self.update_pattern)
-        self.ui.increaseNumButton.clicked.connect(self.increase_elements)
-        self.ui.decreaseNumButton.clicked.connect(self.decrease_elements)
-        
-        # Connect additional signals
-        self.ui.magnitudeSpin.valueChanged.connect(self.update_element)
-        self.ui.frequencySpin.valueChanged.connect(self.update_element)
-        self.ui.phaseShiftSpin.valueChanged.connect(self.update_element)
-        
-        # Initialize
-        self.update_pattern()
-        
-        # Initialize transmitter selection
-        self.ui.transmitterNumLCD.display(self.calculator.num_elements)
-        self.update_transmitter_combo()
-        
-        # Connect combo box signal
-        self.ui.selectTransmitterComboBox.currentIndexChanged.connect(self.update_element_display)
-        
-        # Set initial spacing value and range
-        self.ui.spacingSpin.setRange(10, 200)  # Range from 0.1 to 2.0
-        self.ui.spacingSpin.setValue(50)        # Default 0.5
-        self.ui.spacingSpin.setSingleStep(1)    # Step by 0.01 when converted
+                
+        self  .steeringAngleSpin.valueChanged.connect(self.update_pattern)
+        self  .spacingSpin.valueChanged.connect(self.update_pattern)
+        self  .curvedCheckBox.stateChanged.connect(self.update_pattern)
+        self  .radiusSlider.valueChanged.connect(self.update_pattern)
+        self  .increaseNumButton.clicked.connect(self.increase_elements)
+        self  .decreaseNumButton.clicked.connect(self.decrease_elements)
+        self  .magnitudeSpin.valueChanged.connect(self.update_element)
+        self  .frequencySpin.valueChanged.connect(self.update_element)
+        self  .phaseShiftSpin.valueChanged.connect(self.update_element)
+        self  .selectTransmitterComboBox.currentIndexChanged.connect(self.update_element_display)
 
-        # Set ranges for input controls
-        self.ui.steeringAngleSpin.setRange(-90, 90)  # Steering angle ±90°
-        self.ui.phaseShiftSpin.setRange(0, 360)      # Phase 0-360°
-        self.ui.frequencySpin.setRange(1, 100)       # Frequency range
-        self.ui.magnitudeSpin.setRange(0, 100)       # Magnitude 0-100%
+        self.update_pattern()
+        # Initialize transmitter selection
+        self  .transmitterNumLCD.display(self.calculator.num_elements)
+        self.update_transmitter_combo()
+        self.update_waves()
+        
+        
+        
+        
+        
+        
         
     def update_pattern(self):
         print("Debug: Updating beam pattern")
-        print(f"Steering: {self.ui.steeringAngleSpin.value()}")
-        print(f"Spacing: {self.ui.spacingSpin.value()}")
-        print(f"Curved: {self.ui.curvedCheckBox.isChecked()}")
-        print(f"Radius: {self.ui.radiusSlider.value()}")
+        print(f"Steering: {self  .steeringAngleSpin.value()}")
+        print(f"Spacing: {self  .spacingSpin.value()}")
+        print(f"Curved: {self  .curvedCheckBox.isChecked()}")
+        print(f"Radius: {self  .radiusSlider.value()}")
         
         # Update calculator parameters
-        self.calculator.steering_angle = self.ui.steeringAngleSpin.value()
+        self.calculator.steering_angle = self  .steeringAngleSpin.value()
         
         # Fix spacing calculation: divide by 100 to convert to wavelengths
-        self.calculator.spacing = self.ui.spacingSpin.value() / 100.0  # Convert to wavelengths
+        self.calculator.spacing = self  .spacingSpin.value() / 100.0  # Convert to wavelengths
         print(f"Actual spacing: {self.calculator.spacing} wavelengths")  # Debug print
         
-        self.calculator.is_curved = self.ui.curvedCheckBox.isChecked()
-        self.calculator.radius = self.ui.radiusSlider.value() / 100
+        self.calculator.is_curved = self  .curvedCheckBox.isChecked()
+        self.calculator.radius = self  .radiusSlider.value() / 100
         
         # Calculate and update pattern
         angles, magnitudes = self.calculator.calculate_beam_pattern()
-        self.beam_pattern.update_beam_pattern(angles, magnitudes)
-        self.update_waves()  # Update both visualizations together
+        self.BeamPatternGraph.update_beam_pattern(angles, magnitudes)
+        self.update_waves()
         
     def update_element(self):
-        index = self.ui.selectTransmitterComboBox.currentIndex()
-        freq = self.ui.frequencySpin.value()
-        phase = self.ui.phaseShiftSpin.value()
+        index = self  .selectTransmitterComboBox.currentIndex()
+        freq = self  .frequencySpin.value()
+        phase = self  .phaseShiftSpin.value()
         # Fix: Scale magnitude to 0-1 range
-        magnitude = self.ui.magnitudeSpin.value() / 100.0
+        magnitude = self  .magnitudeSpin.value() / 100.0
         
         print(f"Updating element {index} with:")
         print(f"Frequency: {freq}")
@@ -227,37 +203,30 @@ class MainWindow(QtWidgets.QMainWindow):
         self.update_waves()
         
     def update_waves(self):
-        time = np.linspace(0, 2, 1000)  # Show 2 periods
         
         # Debug print
         print("Updating waves with:")
         print(f"Amplitudes: {self.calculator.amplitudes}")
         print(f"Phases: {self.calculator.phases}")
         print(f"Frequencies: {self.calculator.frequencies}")
-        
-        # Fix: Use waves_graph instead of ui.WavesGraph
-        self.waves_graph.update_waves(
-            time,
-            self.calculator.amplitudes,
-            self.calculator.phases,
-            self.calculator.frequencies
-        )
+        self.formBeam()
         
     def update_transmitter_combo(self):
-        self.ui.selectTransmitterComboBox.clear()
+        self  .selectTransmitterComboBox.clear()
         for i in range(self.calculator.num_elements):
-            self.ui.selectTransmitterComboBox.addItem(f"Transmitter {i+1}")
+            self  .selectTransmitterComboBox.addItem(f"Transmitter {i+1}")
             
     def update_element_display(self):
-        index = self.ui.selectTransmitterComboBox.currentIndex()
+        index = self  .selectTransmitterComboBox.currentIndex()
         if index >= 0 and index < len(self.calculator.frequencies):
-            self.ui.frequencySpin.setValue(self.calculator.frequencies[index])
-            self.ui.phaseShiftSpin.setValue(self.calculator.phases[index])
-            self.ui.magnitudeSpin.setValue(self.calculator.amplitudes[index] * 100)
+            self  .frequencySpin.setValue(self.calculator.frequencies[index])
+            self  .phaseShiftSpin.setValue(self.calculator.phases[index])
+            self  .magnitudeSpin.setValue(self.calculator.amplitudes[index] * 100)
     
     def increase_elements(self):
         self.calculator.num_elements += 1
-        self.ui.transmitterNumLCD.display(self.calculator.num_elements)
+        self.transmitters.append(Transmitter())
+        self  .transmitterNumLCD.display(self.calculator.num_elements)
         self.update_transmitter_combo()
         self.update_pattern()
         self.update_waves()
@@ -265,14 +234,37 @@ class MainWindow(QtWidgets.QMainWindow):
     def decrease_elements(self):
         if self.calculator.num_elements > 1:
             self.calculator.num_elements -= 1
-            self.ui.transmitterNumLCD.display(self.calculator.num_elements)
+            self.transmitters.pop()
+            self  .transmitterNumLCD.display(self.calculator.num_elements)
             self.update_transmitter_combo()
             self.update_pattern()
             self.update_waves()
+
+    def formBeam(self):
+        """this functon forms the sound waves that transmit from point sources"""
         
-def main():
+        field = np.zeros((len(self.x), len(self.y)), dtype=complex)
+        for transmitter in self.transmitters:
+            k = 2 * np.pi * transmitter.frequency / self.speed
+            wavelength = self.speed / transmitter.frequency
+            tr_field = np.zeros_like(field)
+            for n in range(self.calculator.num_elements):
+                x_offset = (n - (self.calculator.num_elements - 1) / 2) * self.calculator.spacing*wavelength
+                y_offset = self.calculator.radius * x_offset**2
+                rotation = np.radians(self.rotation)
+                x_n = x_offset*np.cos(rotation) - y_offset*np.sin(rotation)
+                y_n = x_offset*np.sin(rotation) + y_offset*np.cos(rotation)
+                X, Y = np.meshgrid(self.x  - x_n, self.y - y_n)
+                r = np.sqrt(X**2 + Y**2)
+                steering_angle = np.radians(self.calculator.steering_angle)
+                phase = k*r + n*k*self.calculator.spacing*wavelength*np.sin(steering_angle)+ transmitter.phase
+                tr_field += transmitter.amplitude * np.exp(-1j*phase)
+            field += tr_field/r**2
+        self.field = 20*np.log10(np.abs(field))
+        self.WavesGraph.plot_wave(self.field)
+def main(): 
     app = QtWidgets.QApplication(sys.argv)
-    window = MainWindow()
+    window = Window()
     window.show()
     sys.exit(app.exec())
 
