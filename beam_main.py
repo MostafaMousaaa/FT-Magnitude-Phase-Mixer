@@ -60,6 +60,9 @@ class Window(Ui_MainWindow):
         freq = self.frequencySpin.value()
         phase = self.phaseShiftSpin.value()
         magnitude = self.magnitudeSpin.value() / 100.0
+        self.transmitters[index].amplitude = magnitude
+        self.transmitters[index].frequency = freq
+        self.transmitters[index].phase = phase
         print(f"Updating element {index} with:")
         print(f"Frequency: {freq}")
         print(f"Phase: {phase}")
@@ -123,7 +126,7 @@ class Window(Ui_MainWindow):
             field += tr_field/r**2
         self.field = 20*np.log10(np.abs(field))
         self.WavesGraph.plot_wave(self.field)
-        
+
 def main(): 
     app = QtWidgets.QApplication(sys.argv)
     window = Window()
