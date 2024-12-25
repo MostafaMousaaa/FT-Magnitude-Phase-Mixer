@@ -226,13 +226,13 @@ class Ui_MainWindow(QMainWindow):
 "QSpinBox::up-button {\n"
 "    subcontrol-origin: border;\n"
 "    subcontrol-position: top right;\n"
-"    width: 12px;\n"
+"    width: 6px;\n"
 "    border-left: 1px solid #81A1C1;\n"
 "}\n"
 "QSpinBox::down-button {\n"
 "    subcontrol-origin: border;\n"
 "    subcontrol-position: bottom right;\n"
-"    width: 12px;\n"
+"    width: 6px;\n"
 "    border-left: 1"
                         "px solid #81A1C1;\n"
 "}\n"
@@ -469,6 +469,7 @@ class Ui_MainWindow(QMainWindow):
 
         self.magnitudeSpin = QSpinBox(self.centralwidget)
         self.magnitudeSpin.setObjectName(u"magnitudeSpin")
+        self.magnitudeSpin.setMinimumSize(QSize(50,25))
 
         self.horizontalLayout_9.addWidget(self.magnitudeSpin)
 
@@ -482,6 +483,7 @@ class Ui_MainWindow(QMainWindow):
 
         self.frequencySpin = QSpinBox(self.centralwidget)
         self.frequencySpin.setObjectName(u"frequencySpin")
+        self.frequencySpin.setMinimumSize(QSize(50,25))
 
         self.horizontalLayout_8.addWidget(self.frequencySpin)
 
@@ -495,6 +497,7 @@ class Ui_MainWindow(QMainWindow):
 
         self.phaseShiftSpin = QSpinBox(self.centralwidget)
         self.phaseShiftSpin.setObjectName(u"phaseShiftSpin")
+        self.phaseShiftSpin.setMinimumSize(QSize(50,25))
 
         self.horizontalLayout_6.addWidget(self.phaseShiftSpin)
 
@@ -606,7 +609,7 @@ class Ui_MainWindow(QMainWindow):
         self.label_7.setText(QCoreApplication.translate("MainWindow", u"Spacing", None))
         self.curvedCheckBox.setText(QCoreApplication.translate("MainWindow", u"Curved", None))
         self.label_8.setText(QCoreApplication.translate("MainWindow", u"Radius", None))
-        self.label_5.setText(QCoreApplication.translate("MainWindow", u"         Transmitter", None))
+        self.label_5.setText(QCoreApplication.translate("MainWindow", u" Choose Transmitter", None))
         self.label_10.setText(QCoreApplication.translate("MainWindow", u"Magnitude", None))
         self.label_9.setText(QCoreApplication.translate("MainWindow", u"Frequency", None))
         self.label_3.setText(QCoreApplication.translate("MainWindow", u"Phase Shift", None))
